@@ -30,6 +30,8 @@ adj, features, y_train, y_val, y_test, train_mask, val_mask, test_mask = load_da
 
 # Some preprocessing
 features = preprocess_features(features)
+
+# 邻接矩阵标准化
 if FLAGS.model == 'gcn':
     support = [preprocess_adj(adj)]
     num_supports = 1

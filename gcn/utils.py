@@ -120,6 +120,7 @@ def preprocess_features(features):
 
 
 def normalize_adj(adj):
+    # 邻接矩阵归一化，将数据变得具有可比性
     """Symmetrically normalize adjacency matrix."""
     adj = sp.coo_matrix(adj)
     rowsum = np.array(adj.sum(1))
@@ -130,6 +131,7 @@ def normalize_adj(adj):
 
 
 def preprocess_adj(adj):
+    # 因为邻接矩阵的对角都是0，和特征矩阵内积相当于将邻接矩阵直接做加权和，节点特征的值成了邻接矩阵的权，自身的特征被忽略，为了避免这种情况，先给邻接矩阵加上一个对角线为1的单位矩阵
     """Preprocessing of adjacency matrix for simple GCN model and conversion to tuple representation."""
     adj_normalized = normalize_adj(adj + sp.eye(adj.shape[0]))
     return sparse_to_tuple(adj_normalized)
@@ -147,6 +149,7 @@ def construct_feed_dict(features, support, labels, labels_mask, placeholders):
 
 
 def chebyshev_polynomials(adj, k):
+    # 切比雪夫多项式近似
     """Calculate Chebyshev polynomials up to order k. Return a list of sparse matrices (tuple representation)."""
     print("Calculating Chebyshev polynomials up to order {}...".format(k))
 
